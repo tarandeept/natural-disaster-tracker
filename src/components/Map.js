@@ -1,8 +1,36 @@
+import { useState, useEffect } from 'react';
+
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker';
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const Map = () => {
+  const [earthquakes, setEarthquakes] = useState([]);
+  const [floods, setFloods] = useState([]);
+  const [landslides, setLandslides] = useState([]);
+  const [storms, setStorms] = useState([]);
+  const [volcanoes, setVolcanoes] = useState([]);
+  const [wildfires, setWildfires] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      setLoading(true);
+      const data = await fetch('events');
+      const events = await data.json();
+
+      setEarthquakes(events.earthquakes);
+      setFloods(events.floods);
+      setLandslides(events.landslides);
+      setStorms(events.storms);
+      setVolcanoes(events.volcanoes);
+      setWildfires(events.wildfires);
+      setLoading(false);
+    }
+
+    fetchEvents();
+  }, [])
+
   const map_properties = {
     center: {
       lat: 36.7909,
