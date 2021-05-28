@@ -9,8 +9,33 @@ body {
   position: relative;
 }
 
-.fire-icon {
+.earthquake-icon {
+  font-size: 1.2rem;
+  color: brown;
+}
+
+.flood-icon {
+  font-size: 1.2rem;
+  color: rgb(89, 89, 247);
+}
+
+.landslide-icon {
+  font-size: 1.2rem;
+  color: rgb(25, 100, 16);
+}
+
+.storm-icon {
+  font-size: 1.2rem;
+  color: blue;
+}
+
+.volcano-icon {
   font-size: 2rem;
+  color: rgb(148, 25, 25);
+}
+
+.fire-icon {
+  font-size: 1.2rem;
   color: red;
 }
 
