@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
-
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker';
+import { GiEarthCrack } from 'react-icons/gi';
+import { GiFlood } from 'react-icons/gi';
+import { MdLandscape } from 'react-icons/md';
+import { IoThunderstormOutline } from 'react-icons/io5';
+import { WiVolcano } from 'react-icons/wi';
+import { ImFire } from 'react-icons/im';
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const Map = ({ events }) => {
@@ -12,7 +17,7 @@ const Map = ({ events }) => {
   const [volcanoes, setVolcanoes] = useState(events.volcanoes);
   const [wildfires, setWildfires] = useState(events.wildfires);
   const [center, setCenter] = useState( {lat: 36.7909, lng: -119.8052} );
-  const [zoom, setZoom] = useState(6);
+  const [zoom, setZoom] = useState(5);
 
   const get_coordinates = (ev) => {
     let coords = ev.geometry[0].coordinates;
@@ -24,13 +29,13 @@ const Map = ({ events }) => {
     return { longitude, latitude };
   } 
 
-  const generate_markers = (events) => {
+  const generate_markers = (events, icon) => {
     let result = [];
     if (events) {
       result = events.map(ev => {
         const { latitude, longitude } = get_coordinates(ev);
         const id = ev.id;
-        return <LocationMarker lat={latitude} lng={longitude} key={id}/>
+        return <LocationMarker lat={latitude} lng={longitude} icon={icon} key={id}/>
       })
     }
     return result;
@@ -43,12 +48,12 @@ const Map = ({ events }) => {
         defaultCenter={center}
         defaultZoom={zoom}
       >
-        {generate_markers(earthquakes)}
-        {generate_markers(floods)}
-        {generate_markers(landslides)}
-        {generate_markers(storms)}
-        {generate_markers(volcanoes)}
-        {generate_markers(wildfires)}
+        {generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>)}
+        {generate_markers(floods, <GiFlood className="flood-icon"/>)}
+        {generate_markers(landslides, <MdLandscape className="landslide-icon"/>)}
+        {generate_markers(storms, <IoThunderstormOutline className="storm-icon"/>)}
+        {generate_markers(volcanoes, <WiVolcano className="volcano-icon"/>)}
+        {generate_markers(wildfires, <ImFire className="fire-icon"/>)}
       </GoogleMapReact>
     </div>
   )
