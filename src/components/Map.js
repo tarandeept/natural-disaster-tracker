@@ -28,7 +28,7 @@ const Map = ({ events }) => {
   const [eventInfo, setEventInfo] = useState(null);
 
   const get_coordinates = (ev) => {
-    let coords = ev.geometry[0].coordinates;
+    let coords = ev.geometry[ev.geometry.length - 1].coordinates;
     while (Array.isArray(coords[0])) {
       coords = coords[0];
     }
@@ -42,8 +42,10 @@ const Map = ({ events }) => {
     if (events) {
       result = events.map(ev => {
         const { latitude, longitude } = get_coordinates(ev);
+        const date = ev.geometry[ev.geometry.length - 1].date;
         const id = ev.id;
-        return <LocationMarker lat={latitude} lng={longitude} icon={icon} key={id} onClick={() => setEventInfo({ title: ev.title, source: ev.sources[0].url })}/>
+        const info = { title: ev.title, source: ev.sources[0].url, date: date };
+        return <LocationMarker lat={latitude} lng={longitude} icon={icon} key={id} onClick={() => setEventInfo(info)}/>
       })
     }
     return result;
