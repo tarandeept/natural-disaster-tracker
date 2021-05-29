@@ -76,6 +76,7 @@ const Map = ({ events }) => {
         bootstrapURLKeys={{key: GOOGLE_API_KEY}}
         defaultCenter={center}
         defaultZoom={zoom}
+        options={{fullscreenControl: false}}
       >
         {showEarthquakes && generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>)}
         {showFloods && generate_markers(floods, <GiFlood className="flood-icon"/>)}
