@@ -9,7 +9,7 @@ const EventInfoBox = ({ info, closeInfo }) => {
       <ul>
         <li>Title: {info.title}</li>
         <li>Date: {date}</li>
-        <li><a href={info.source} target="_blank">More info</a></li>
+        <li><a href={info.source} target="_blank" rel="noopener noreferrer">More info</a></li>
         <li><button onClick={closeInfo}>CLOSE</button></li>
       </ul>
     </div>
