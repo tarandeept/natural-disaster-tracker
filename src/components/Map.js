@@ -18,6 +18,12 @@ const Map = ({ events }) => {
   const [wildfires, setWildfires] = useState(events.wildfires);
   const [center, setCenter] = useState( {lat: 36.7909, lng: -119.8052} );
   const [zoom, setZoom] = useState(5);
+  const [showEarthquakes, setShowEarthquakes] = useState(true);
+  const [showFloods, setShowFloods] = useState(true);
+  const [showLandslides, setShowLandslides] = useState(true);
+  const [showStorms, setShowStorms] = useState(true);
+  const [showVolcanoes, setShowVolcanoes] = useState(true);
+  const [showWildfires, setShowwildfires] = useState(true);
 
   const get_coordinates = (ev) => {
     let coords = ev.geometry[0].coordinates;
@@ -43,17 +49,38 @@ const Map = ({ events }) => {
 
   return (
     <div className="map">
+      <nav className="topnav">
+        <div className="nav-item" onClick={() => setShowEarthquakes(!showEarthquakes)}>
+          <GiEarthCrack className={showEarthquakes ? "nav-active" : "nav-deactive"}/>
+        </div>
+        <div className="nav-item" onClick={() => setShowFloods(!showFloods)}>
+          <GiFlood className={showFloods ? "nav-active" : "nav-deactive"}/>
+        </div>
+        <div className="nav-item" onClick={() => setShowLandslides(!showLandslides)}>
+          <MdLandscape className={showLandslides ? "nav-active" : "nav-deactive"}/>
+        </div>
+        <div className="nav-item" onClick={() => setShowStorms(!showStorms)}>
+          <IoThunderstormOutline className={showStorms ? "nav-active" : "nav-deactive"}/>
+        </div>
+        <div className="nav-item" onClick={() => setShowVolcanoes(!showVolcanoes)}>
+          <WiVolcano className={showVolcanoes ? "nav-active" : "nav-deactive"}/>
+        </div>
+        <div className="nav-item" onClick={() => setShowwildfires(!showWildfires)}>
+          <ImFire className={showWildfires ? "nav-active" : "nav-deactive"}/>
+        </div>
+      </nav>
+
       <GoogleMapReact
         bootstrapURLKeys={{key: GOOGLE_API_KEY}}
         defaultCenter={center}
         defaultZoom={zoom}
       >
-        {generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>)}
-        {generate_markers(floods, <GiFlood className="flood-icon"/>)}
-        {generate_markers(landslides, <MdLandscape className="landslide-icon"/>)}
-        {generate_markers(storms, <IoThunderstormOutline className="storm-icon"/>)}
-        {generate_markers(volcanoes, <WiVolcano className="volcano-icon"/>)}
-        {generate_markers(wildfires, <ImFire className="fire-icon"/>)}
+        {showEarthquakes ? generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>) : null}
+        {showFloods ? generate_markers(floods, <GiFlood className="flood-icon"/>) : null}
+        {showLandslides ? generate_markers(landslides, <MdLandscape className="landslide-icon"/>) : null}
+        {showStorms ? generate_markers(storms, <IoThunderstormOutline className="storm-icon"/>) : null}
+        {showVolcanoes ? generate_markers(volcanoes, <WiVolcano className="volcano-icon"/>) : null}
+        {showWildfires ? generate_markers(wildfires, <ImFire className="fire-icon"/>) : null}
       </GoogleMapReact>
     </div>
   )
