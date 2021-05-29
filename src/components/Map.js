@@ -7,6 +7,7 @@ import { MdLandscape } from 'react-icons/md';
 import { IoThunderstormOutline } from 'react-icons/io5';
 import { WiVolcano } from 'react-icons/wi';
 import { ImFire } from 'react-icons/im';
+import EventInfoBox from './EventInfoBox';
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const Map = ({ events }) => {
@@ -24,6 +25,7 @@ const Map = ({ events }) => {
   const [showStorms, setShowStorms] = useState(true);
   const [showVolcanoes, setShowVolcanoes] = useState(true);
   const [showWildfires, setShowwildfires] = useState(true);
+  const [eventInfo, setEventInfo] = useState(null);
 
   const get_coordinates = (ev) => {
     let coords = ev.geometry[0].coordinates;
@@ -41,7 +43,7 @@ const Map = ({ events }) => {
       result = events.map(ev => {
         const { latitude, longitude } = get_coordinates(ev);
         const id = ev.id;
-        return <LocationMarker lat={latitude} lng={longitude} icon={icon} key={id}/>
+        return <LocationMarker lat={latitude} lng={longitude} icon={icon} key={id} onClick={() => setEventInfo({ title: ev.title, source: ev.sources[0].url })}/>
       })
     }
     return result;
@@ -75,13 +77,15 @@ const Map = ({ events }) => {
         defaultCenter={center}
         defaultZoom={zoom}
       >
-        {showEarthquakes ? generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>) : null}
-        {showFloods ? generate_markers(floods, <GiFlood className="flood-icon"/>) : null}
-        {showLandslides ? generate_markers(landslides, <MdLandscape className="landslide-icon"/>) : null}
-        {showStorms ? generate_markers(storms, <IoThunderstormOutline className="storm-icon"/>) : null}
-        {showVolcanoes ? generate_markers(volcanoes, <WiVolcano className="volcano-icon"/>) : null}
-        {showWildfires ? generate_markers(wildfires, <ImFire className="fire-icon"/>) : null}
+        {showEarthquakes && generate_markers(earthquakes, <GiEarthCrack className="earthquake-icon"/>)}
+        {showFloods && generate_markers(floods, <GiFlood className="flood-icon"/>)}
+        {showLandslides && generate_markers(landslides, <MdLandscape className="landslide-icon"/>)}
+        {showStorms && generate_markers(storms, <IoThunderstormOutline className="storm-icon"/>)}
+        {showVolcanoes && generate_markers(volcanoes, <WiVolcano className="volcano-icon"/>)}
+        {showWildfires && generate_markers(wildfires, <ImFire className="fire-icon"/>)}
       </GoogleMapReact>
+
+      {eventInfo && <EventInfoBox info={eventInfo} closeInfo={() => setEventInfo(null)}/>}
     </div>
   )
 }
